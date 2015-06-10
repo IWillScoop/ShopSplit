@@ -5,30 +5,44 @@
 
 <body>
     <div class="container">
-        <header>
+        <header class="header">
             <h1>ShopSplit</h1>
-            <label class="hide-completed">
-                <input type="checkbox" checked="{{hideCompleted}}" />
-                Hide Completed Tasks
-            </label>
             {{> loginButtons}}
-            {{#if currentUser}}
-                <form class="row newtask">
-                    <input type="text" class="col-md-6" name="text" placeholder="Type to add new tasks" />
-                    <input type="checkbox" class="col-md-2" name="Person1" />
-                    <input type="checkbox" class="col-md-2" name="Person2" />
-                    <input type="checkbox" class="col-md-2" name="Person3" />
-                </form>
-            {{/if}}
-            
+            <form class="row new-item">
+                <div class="col-md-2 col-md-offset-3">
+                    <input type="text" name="item" placeholder="Item Name" />
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="price" placeholder="Price" />
+                </div>
+                <div class="col-md-6 checkbox" style="width:25%">
+                    <label style="margin">
+                        <input class="checkbox" name="person1" type="checkbox"> Person 1
+                    </label>
+                    <label>
+                        <input class="checkbox" name="person2" type="checkbox"> Person 2
+                    </label>
+                    <label>
+                        <input class="checkbox" name="person3" type="checkbox"> Person 3
+                    </label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </form>
         </header>
-        <ul>
-            {{#each tasks}}
-            <span class="text"><strong>{{username}}</strong> - {{> task}}</span>
-            {{/each}}
-        </ul>
+        <div class="pull-right">
+            {{>split}}
+        </div>
     </div>
 </body>
+
+<template name="split">
+    <span class="text"><strong>Current Split </strong></span><br/>
+    {{#each split}}
+        {{this}}<br/>
+    {{/each}}
+</template>
 
 <template name="task">
     <li class="{{#if checked}}checked{{/if}}">
