@@ -1,19 +1,23 @@
 <head>
-  <title>simple-todos</title>
+    <title>ShopSplit</title>
+    <link rel="stylesheet" src="bootstrap.css" />
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>Todo List ({{incompleteCount}})</h1>
+            <h1>ShopSplit</h1>
             <label class="hide-completed">
                 <input type="checkbox" checked="{{hideCompleted}}" />
                 Hide Completed Tasks
             </label>
             {{> loginButtons}}
             {{#if currentUser}}
-                <form class="new-task">
-                    <input type="text" name="text" placeholder="Type to add new tasks" />
+                <form class="row newtask">
+                    <input type="text" class="col-md-6" name="text" placeholder="Type to add new tasks" />
+                    <input type="checkbox" class="col-md-2" name="Person1" />
+                    <input type="checkbox" class="col-md-2" name="Person2" />
+                    <input type="checkbox" class="col-md-2" name="Person3" />
                 </form>
             {{/if}}
             

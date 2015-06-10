@@ -51,7 +51,7 @@ if (Meteor.isClient) {
 } 
 
 Meteor.methods({
-    addTasks: function (text) {
+    addTask: function (text) {
         if( ! Meteor.userId()) {
             throw new Meteor.Error("not-authorized");
         }
