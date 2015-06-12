@@ -1,6 +1,24 @@
 <head>
     <title>ShopSplit</title>
     <link rel="stylesheet" src="css/bootstrap.css" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('form').submit(function(e) {
+                var checkedAtLeastOne = false;
+                $('input[type="checkbox"]').each(function() {
+                    if ($(this).is(":checked")) {
+                        checkedAtLeastOne = true;
+                    }
+                });
+                console.log(checkedAtLeastOne);
+                if(!checkedAtLeastOne) {
+                    alert("Check atleast one checkbox");
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+    
 </head>
 
 <body>
@@ -49,6 +67,7 @@
 <template name="split">
     <span class="text"><strong>Current Split </strong></span><br/>
     {{#each splits}}
-        {{name}} : {{split}}<br/>
+        {{name}} : ${{split}}<br/>
     {{/each}}
 </template>
+
