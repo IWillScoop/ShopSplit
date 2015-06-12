@@ -19,9 +19,9 @@ if (Meteor.isClient) {
             items.push(event.target.item.value);
             $(":checkbox").each(function() {
                 if($(this).is(':checked')) {
-                    div = price/count.toFixed(2);
+                    div = (price/count).toFixed(2);
+                    console.log( parseFloat(div));
                     splits[itr]["split"] += parseFloat(div);
-                    
                 }
                 itr++;
             });
