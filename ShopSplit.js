@@ -19,14 +19,12 @@ if (Meteor.isClient) {
             items.push(event.target.item.value);
             $(":checkbox").each(function() {
                 if($(this).is(':checked')) {
-                    splits[itr]["split"] += price / count;
+                    div = price/count.toFixed(2);
+                    splits[itr]["split"] += parseFloat(div);
+                    
                 }
                 itr++;
             });
-            for(var split in splits) {
-                console.log(split);
-                //split["split"] = split["split"].toFixed(2);
-            }
             Session.set("splits", splits);
             Session.set("items", items);
             //Meteor.call("addTask", event.target);
