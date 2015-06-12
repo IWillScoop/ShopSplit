@@ -1,27 +1,11 @@
 groceries = new Mongo.Collection("groceries");
 
 if (Meteor.isClient) {
-    var split = [0,0,0];
-    Session.setDefault("split", split);
+    Session.setDefault("splits", [{name: "Person 1", split: 0}, {name: "Person 2", split: 0},{name: "Person 3", split: 0}]);
+    Session.setDefault("items", [{}]);
     Template.split.helpers({
-        split: function() {
-            return Session.get("split");
-        }
-    })
-    Template.body.helpers({
-        groceries: function () {
-            if (Session.get("hideCompleted")) {
-                return groceries.find({checked:{$ne: true}}, {sort: {createdAt: -1}});
-            }
-            else {
-                return groceries.find({}, {sort: {createdAt: -1}});
-            }
-        },
-        hideCompleted: function () {
-            return Session.get("hideCompleted");
-        },
-        incompleteCount: function () {
-            return groceries.find({checked: {$ne:true}}).count();
+        splits: function() {
+            return Session.get("splits");
         }
     });
     
@@ -30,14 +14,21 @@ if (Meteor.isClient) {
             var count = $('input[type="checkbox"]:checked').length;
             var itr = 0;
             var price = event.target.price.value;
+            var splits = Session.get("splits");
+            var items = Session.get("items");
+            items.push(event.target.item.value);
             $(":checkbox").each(function() {
                 if($(this).is(':checked')) {
-                    split[itr] += price / count;
+                    splits[itr]["split"] += price / count;
                 }
                 itr++;
             });
-            Session.set("split", split);
-            
+            for(var split in splits) {
+                console.log(split);
+                //split["split"] = split["split"].toFixed(2);
+            }
+            Session.set("splits", splits);
+            Session.set("items", items);
             //Meteor.call("addTask", event.target);
             
             //Clear 
@@ -55,38 +46,8 @@ if (Meteor.isClient) {
        
     });
     
-    Template.task.events({
-        "click .toggle-checked": function() {
-            Meteor.call("setChecked", this._id, !this.checked);
-        },
-        "click .delete": function() {
-            Meteor.call("deleteTask", this._id);
-        }
-    });
-    
     Accounts.ui.config({
         passwordSignupFields: "USERNAME_ONLY"
     });
 
-} 
-
-Meteor.methods({
-    addTask: function (text) {
-        if( ! Meteor.userId()) {
-            throw new Meteor.Error("not-authorized");
-        }
-        
-        groceries.insert({
-            text: text,
-            createdAt: new Date(),
-            owner: Meteor.userId(),
-            username: Meteor.user().username
-        });
-    },
-    deleteTask: function (taskId) {
-        groceries.remove(taskId);
-    },
-    setChecked: function (taskId, setChecked) {
-        groceries.update(taskId, {$set: {checked: setChecked}});
-    }
-});
+}
